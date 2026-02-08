@@ -10,55 +10,48 @@
   </head>
   <body>
     <?php include 'partials/_header.php'; ?>
+    <?php include 'partials/_dbconnect.php'; ?>
+
+    <!-- Slider starts here -->
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            <img src="https://www.sourcesplash.com/i/random?q=apple,code" style="height: 600px; width: 400px;" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+            <img src="https://www.sourcesplash.com/i/random?q=programmers,google" style="height: 600px; width: 400px;" class="d-block w-100" alt="Random">
+            </div>
+            <div class="carousel-item">
+            <img src="https://www.sourcesplash.com/i/random?q=coding,java" style="height: 600px; width: 400px;" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+      <!-- Category container starts here  -->
       <div class="container my-3">
-         <h2 class="text-center my-3">iDiscuss - Categories</h2>
+         <h2 class="text-center my-3">iDiscuss - Browse Categories</h2>
          <div class="row">
+           <!-- Fetch all categories -->
+           <?php 
+           $sql = "SELECT * FROM `categories`"; 
+           $result = mysqli_query($conn, $sql);
+           while($row = mysqli_fetch_assoc($result)){
+            echo $row['category_id'];
+           }
+           ?>
 
-
-        <!-- Use a for loop to iterate through categories -->
+           <!-- Use a for loop to iterate through categories -->
             <div class="col-md-4 my-2">
                 <div class="card " style="width: 18rem;">
-                    <img src="https://www.sourcesplash.com/i/random?q=code,python" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">View Threads</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card " style="width: 18rem;">
-                    <img src="https://www.sourcesplash.com/i/random?q=code,python" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">View Threads</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card " style="width: 18rem;">
-                    <img src="https://www.sourcesplash.com/i/random?q=code,python" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">View Threads</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card " style="width: 18rem;">
-                    <img src="https://www.sourcesplash.com/i/random?q=code,python" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">View Threads</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card " style="width: 18rem;">
-                    <img src="https://www.sourcesplash.com/i/random?q=code,python" class="card-img-top" alt="...">
+                    <img src="https://www.sourcesplash.com/i/random?q=coding,java" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
@@ -67,9 +60,10 @@
                 </div>
             </div>
             
+          
             
             
-
+        
             
 
 

@@ -9,10 +9,10 @@ echo '  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="/forum">Home</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="about.php">About</a>
                 </li>
                 <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,7 +26,7 @@ echo '  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Contact</a>
+                    <a class="nav-link" href="contact.php">Contact</a>
                 </li>
             </ul>
           
@@ -34,12 +34,14 @@ echo '  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                 <button class="btn btn-success" type="submit">Search</button>
             </form>
-              <div class="mx-2">
-                <button class="btn btn-primary">Login</button>
-                <button class="btn btn-primary">Signup</button>
+              <div class="mx-2"> 
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</button>
             </div>
             </div>
-        </div>
+        </div>   
     </nav>';
-
+ 
+include 'partials/_loginModal.php'; 
+include 'partials/_signupModal.php';
 ?>
