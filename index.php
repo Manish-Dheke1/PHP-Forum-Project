@@ -14,15 +14,20 @@
 
     <!-- Slider starts here -->
     <div id="carouselExample" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="https://www.sourcesplash.com/i/random?q=apple,code" style="height: 600px; width: 400px;" class="d-block w-100" alt="...">
+            <img src="img/slider-1.jpg" style="height: 600px; width: 400px;" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-            <img src="https://www.sourcesplash.com/i/random?q=programmers,google" style="height: 600px; width: 400px;" class="d-block w-100" alt="Random">
+            <img src="img/slider-2.jpg" style="height: 600px; width: 400px;" class="d-block w-100" alt="Random">
             </div>
             <div class="carousel-item">
-            <img src="https://www.sourcesplash.com/i/random?q=coding,java" style="height: 600px; width: 400px;" class="d-block w-100" alt="...">
+            <img src="img/slider-4.jpg" style="height: 600px; width: 400px;" class="d-block w-100" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -44,21 +49,27 @@
            $sql = "SELECT * FROM `categories`"; 
            $result = mysqli_query($conn, $sql);
            while($row = mysqli_fetch_assoc($result)){
-            echo $row['category_id'];
+            // echo $row['category_id'];
+            // echo $row['category_name'];
+
+            $cat = $row['category_name'];
+            $desc = $row['category_description'];
+
+            echo '<div class="col-md-4 my-2">
+                <div class="card " style="width: 18rem;">
+                    <img src="https://www.sourcesplash.com/i/random?q='.$cat.',coding" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">'.$cat.'</h5>
+                        <p class="card-text">'. substr($desc, 0, 200) .'</p>
+                        <a href="#" class="btn btn-primary">View Threads</a>
+                    </div>
+                </div>
+            </div>';
            }
            ?>
 
            <!-- Use a for loop to iterate through categories -->
-            <div class="col-md-4 my-2">
-                <div class="card " style="width: 18rem;">
-                    <img src="https://www.sourcesplash.com/i/random?q=coding,java" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">View Threads</a>
-                    </div>
-                </div>
-            </div>
+            
             
           
             
