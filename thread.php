@@ -47,7 +47,43 @@
 
       <div class="container" id="ques">
         <h1 class="py-2">Discussions</h1>
-            
+            <?php
+              $id =  $_GET['catid'];
+              $sql = "SELECT * FROM `threads` WHERE thread_cat_id= ". $id; 
+              $result = mysqli_query($conn, $sql);
+              $noResult = true;
+              while($row = mysqli_fetch_assoc($result)){
+                  $noResult = false;
+                  $id = $row['thread_id'];
+                  $title = $row['thread_title'];
+                  $desc = $row['thread_desc'];
+                      
+      
+      echo '  <div class="d-flex my-3">
+            <div class="flex-shrink-0">
+              <img src="img/default_user.png" width="34px" alt="...">
+            </div>
+            <div class="flex-grow-1 ms-3"> 
+              <h5> <a class="text-dark" href="thread.php"> '. $title .' </a> </h5>
+                '. $desc .'
+              </div>
+          </div>';
+              
+          }
+          
+          if($noResult){
+            echo ' <div class="p-5 mb-4 border" style="background-color:#e9ecef;>
+                <div class="container">
+                  <p class="display-5">No Threads Found</p>
+                  <p class="lead">
+                    No Threads Found. Be the first person to ask a question. 
+                  </p>
+                </div>
+              </div> ';
+             }
+           
+             
+            ?> 
           
       </div>
 

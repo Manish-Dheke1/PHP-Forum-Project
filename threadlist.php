@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Welcome to iDiscuss - Coding Forums</title>
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <?php include 'partials/_header.php'; ?>
     <?php include 'partials/_dbconnect.php'; ?>
     <?php
@@ -21,6 +21,7 @@
            }
     ?>
 
+    <div class="flex-grow-1">
       <!-- Category container starts here  -->
       <div class="container my-4">
           <!-- Jumbotron -->
@@ -33,26 +34,74 @@
                 stay on topic in all discussions, avoid spam or unauthorized advertising, respect 
                 everyone’s privacy. </p>
               <p class="lead">
-                  <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                  <a class="btn btn-success btn-lg" href="#" role="button">Learn more</a>
               </p>
           </div>
       </div>
 
-      <div class="container">
-        <h1 class="py-2">Browse Questions</h1>
+     <div class="container">
+       <h1 class="py-2">Ask a Question</h1>
 
-        <div class="d-flex my-3">
+          <form>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Problem Title</label>
+                <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">Keep your title as short and crisp as possible.</div>
+              </div>
+              <div class="mb-3">
+                  <label for="exampleFormControlTextarea1" class="form-label">ELaborate Your Concern</label>
+                  <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-success">Submit</button>
+          </form>
+     </div>
+      
+      <div class="container" id="ques">
+        <h1 class="py-2">Browse Questions</h1>
+            <?php
+              $id =  $_GET['catid'];
+              $sql = "SELECT * FROM `threads` WHERE thread_cat_id= ". $id; 
+              $result = mysqli_query($conn, $sql);
+              $noResult = true;
+              while($row = mysqli_fetch_assoc($result)){
+                  $noResult = false;
+                  $id = $row['thread_id'];
+                  $title = $row['thread_title'];
+                  $desc = $row['thread_desc'];
+                      
+      
+      echo '  <div class="d-flex my-3">
             <div class="flex-shrink-0">
               <img src="img/default_user.png" width="34px" alt="...">
             </div>
-            <div class="flex-grow-1 ms-3">
-              <h5>Unable to install Pyaudio error in Windows</h5>
-              This is some content from a media component. You can replace 
-              this with any content and adjust it as needed.
-            </div>
-          </div>
+            <div class="flex-grow-1 ms-3"> 
+              <h5> <a class="text-dark" href="thread.php?threadid='. $id .'"> '. $title .' </a> </h5>
+                '. $desc .'
+              </div>
+          </div>';
+              
+          }
           
+          if($noResult){
+            echo ' <div class="p-5 mb-4 border" style="background-color:#e9ecef;>
+                <div class="container">
+                  <p class="display-5">No Threads Found</p>
+                  <p class="lead">
+                    No Threads Found. Be the first person to ask a question. 
+                  </p>
+                </div>
+              </div> ';
+             }
+           
+             
+            ?> 
+          
+          
+
       </div>
+
+    </div>  <!-- End of flex-grow-1 -->
       
     <?php include 'partials/_footer.php'; ?>
 
