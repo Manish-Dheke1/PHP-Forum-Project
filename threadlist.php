@@ -6,11 +6,19 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+      #ques{
+        min-height: 633px;
+      }
+    </style>
+
     <title>Welcome to iDiscuss - Coding Forums</title>
   </head>
   <body class="d-flex flex-column min-vh-100">
     <?php include 'partials/_header.php'; ?>
     <?php include 'partials/_dbconnect.php'; ?>
+
+
     <?php
     $id =  $_GET['catid'];
     $sql = "SELECT * FROM `categories` WHERE category_id = ". $id; 
@@ -19,6 +27,25 @@
             $catname = $row['category_name'];
             $catdesc = $row['category_description'];
            }
+    ?>
+
+    <?php
+    $showALert = false;
+    $method = $_SERVER['REQUEST_METHOD'];
+    if($method=='POST'){ 
+      // Insert into thread into db
+      $th_title = $_POST['title'];
+      $th_desc = $_POST['desc'];
+      $sql = "INSERT INTO `threads` (`thread_title`, `thread_desc`, `thread_cat_id`, `thread_user_id`, `timestamp`) VALUES ('$th_title', '$th_desc', '$id', '0', current_timestamp())";
+      $result = mysqli_query($conn, $sql);
+      $showAlert = true;
+      if($showAlert){
+        echo ' <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Success!</strong> Your thread has been added! Please wait for community to respond
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               </div>';
+      }
+    }
     ?>
 
     <div class="flex-grow-1">
@@ -40,16 +67,16 @@
       </div>
 
      <div class="container">
-       <h1 class="py-2">Ask a Question</h1>
-
-          <form>
+       <h1 class="py-2">Start a Discussion</h1>
+          
+          <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Problem Title</label>
                 <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">Keep your title as short and crisp as possible.</div>
               </div>
               <div class="mb-3">
-                  <label for="exampleFormControlTextarea1" class="form-label">ELaborate Your Concern</label>
+                  <label for="exampleFormControlTextarea1" class="form-label">Elaborate Your Concern</label>
                   <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
               </div>
               
@@ -93,8 +120,7 @@
                 </div>
               </div> ';
              }
-           
-             
+               
             ?> 
           
           
