@@ -17,6 +17,7 @@
   <body class="d-flex flex-column min-vh-100">
     <?php include 'partials/_header.php'; ?>
     <?php include 'partials/_dbconnect.php'; ?>
+
     <?php
     $id =  $_GET['threadid'];
     $sql = "SELECT * FROM `threads` WHERE thread_id = ". $id; 
@@ -25,6 +26,24 @@
             $title = $row['thread_title'];
             $desc = $row['thread_desc'];
            }
+    ?> 
+
+    <?php
+    $showALert = false;
+    $method = $_SERVER['REQUEST_METHOD'];
+    if($method=='POST'){ 
+      // Insert into comment db
+      $comment = $_POST['comment'];
+      $sql = "INSERT INTO `comments` (`comment_content`, `thread_id`, `comment_by`, `comment_time`) VALUES ('$comment', '$id', '0', current_timestamp())";
+      $result = mysqli_query($conn, $sql);
+      $showAlert = true;
+      if($showAlert){ 
+        echo ' <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Success!</strong> Your comment has been added!
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               </div>';
+      }
+    }
     ?>
 
     <div class="flex-grow-1">
@@ -40,15 +59,17 @@
                 stay on topic in all discussions, avoid spam or unauthorized advertising, respect 
                 everyone’s privacy. </p>
               <p class="lead">
-                <b>Posted by: Manish</b>  
+                Posted by: <b>Manish</b>  
               </p>
           </div>
       </div>
 
-      <div class="container">
+    <?php 
+    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){ 
+     echo '<div class="container">
        <h1 class="py-2">Post a Comment</h1>
           
-          <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+          <form action="'. $_SERVER['REQUEST_URI'] . '" method="post">
               <div class="mb-3">
                   <label for="exampleFormControlTextarea1" class="form-label">Type your comment</label>
                   <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
@@ -56,7 +77,17 @@
               
               <button type="submit" class="btn btn-success">Post Comment</button>
           </form>
-     </div>
+     </div>';
+    }
+     else{
+        echo '
+        <div class="container">
+        <h1 class="py-2">Post a Comment</h1>
+          <p class="lead">You are not logged in. Please login to post Comments</p>
+        </div>';
+     }
+      
+     ?>
 
       <div class="container" id="ques">
         <h1 class="py-2">Discussions</h1>
@@ -69,14 +100,14 @@
                   $noResult = false;
                   $id = $row['comment_id'];
                   $content = $row['comment_content'];
-                      
+                  $comment_time = $row['comment_time'];     
       
       echo '  <div class="d-flex my-3">
             <div class="flex-shrink-0">
               <img src="img/default_user.png" width="34px" alt="...">
             </div>
             <div class="flex-grow-1 ms-3"> 
-              
+               <p class="fw-bold my-0">Anonymous User at '. $comment_time .'</p>
                 '. $content .'
               </div>
           </div>';
