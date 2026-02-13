@@ -36,7 +36,15 @@
       // Insert into thread db
       $th_title = $_POST['title'];
       $th_desc = $_POST['desc'];
-      $sql = "INSERT INTO `threads` (`thread_title`, `thread_desc`, `thread_cat_id`, `thread_user_id`, `timestamp`) VALUES ('$th_title', '$th_desc', '$id', '0', current_timestamp())";
+
+      $th_title = str_replace("<", "&lt;", $th_title);
+      $th_title = str_replace(">", "&gt;", "$th_title");
+
+      $th_desc = str_replace("<", "&lt;", $th_desc);
+      $th_desc = str_replace(">", "&gt;", "$th_desc"); 
+
+      $sno = $_POST['sno'];
+      $sql = "INSERT INTO `threads` (`thread_title`, `thread_desc`, `thread_cat_id`, `thread_user_id`, `timestamp`) VALUES ('$th_title', '$th_desc', '$id', '$sno', current_timestamp())";
       $result = mysqli_query($conn, $sql);
       $showAlert = true;
       if($showAlert){
@@ -77,6 +85,7 @@
                 <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">Keep your title as short and crisp as possible.</div>
               </div>
+              <input type="hidden" name="sno" value="' . $_SESSION["sno"] . '">
               <div class="mb-3">
                   <label for="exampleFormControlTextarea1" class="form-label">Elaborate Your Concern</label>
                   <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
@@ -110,23 +119,29 @@
                   $title = $row['thread_title'];
                   $desc = $row['thread_desc'];
                   $thread_time = $row['timestamp'];
-                      
+                  $thread_user_id = $row['thread_user_id'];
+                  $sql2 = "SELECT user_email FROM `users` where sno='$thread_user_id'";
+                  $result2 = mysqli_query($conn, $sql2); 
+                  $row2 = mysqli_fetch_assoc($result2);
+                  
+
+                  
       
-      echo '  <div class="d-flex my-3">
-            <div class="flex-shrink-0">
-              <img src="img/default_user.png" width="34px" alt="...">
-            </div>
-            <div class="flex-grow-1 ms-3"> 
-              <p class="fw-bold my-0">Anonymous User at '. $thread_time .'</p>
-              <h5> <a class="text-dark" href="thread.php?threadid='. $id .'"> '. $title .' </a> </h5>
-                '. $desc .'
+        echo '  <div class="d-flex my-3">
+              <div class="flex-shrink-0">
+                <img src="img/default_user.png" width="34px" alt="...">
               </div>
-          </div>';
-              
-          }
+              <div class="flex-grow-1 ms-3">'. 
+                
+                '<h5> <a class="text-dark" href="thread.php?threadid='. $id .'"> '. $title .' </a> </h5>
+                  '. $desc .' 
+                </div> '. ' <p class="fw-bold my-0"> Asked by: ' . $row2['user_email'] . ' at '. $thread_time .'</p> '.
+            '</div>';
+                
+            }
           
           if($noResult){
-            echo ' <div class="p-5 mb-4 border" style="background-color:#e9ecef;>
+            echo ' <div class="p-5 mb-4 border" style="background-color:#e9ecef;">
                 <div class="container">
                   <p class="display-5">No Threads Found</p>
                   <p class="lead">

@@ -25,6 +25,13 @@
            while($row = mysqli_fetch_assoc($result)){
             $title = $row['thread_title'];
             $desc = $row['thread_desc'];
+            $thread_user_id = $row['thread_user_id'];
+
+            // Query the users table to find out name of OP
+            $sql2 = "SELECT user_email FROM `users` where sno='$thread_user_id'";
+            $result2 = mysqli_query($conn, $sql2); 
+            $row2 = mysqli_fetch_assoc($result2); 
+            $posted_by = $row2['user_email'];
            }
     ?> 
 
@@ -34,7 +41,10 @@
     if($method=='POST'){ 
       // Insert into comment db
       $comment = $_POST['comment'];
-      $sql = "INSERT INTO `comments` (`comment_content`, `thread_id`, `comment_by`, `comment_time`) VALUES ('$comment', '$id', '0', current_timestamp())";
+      $comment = str_replace("<", "&lt;", $comment);
+      $comment = str_replace(">", "&gt;", "$comment");
+      $sno = $_POST['sno'];
+      $sql = "INSERT INTO `comments` (`comment_content`, `thread_id`, `comment_by`, `comment_time`) VALUES ('$comment', '$id', '$sno', current_timestamp())";
       $result = mysqli_query($conn, $sql);
       $showAlert = true;
       if($showAlert){ 
@@ -59,10 +69,12 @@
                 stay on topic in all discussions, avoid spam or unauthorized advertising, respect 
                 everyone’s privacy. </p>
               <p class="lead">
-                Posted by: <b>Manish</b>  
+                Posted by: <b> <?php echo $posted_by ?></b>  
               </p>
           </div>
       </div>
+
+
 
     <?php 
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){ 
@@ -73,6 +85,7 @@
               <div class="mb-3">
                   <label for="exampleFormControlTextarea1" class="form-label">Type your comment</label>
                   <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                  <input type="hidden" name="sno" value="' . $_SESSION["sno"] . '">
               </div>
               
               <button type="submit" class="btn btn-success">Post Comment</button>
@@ -100,14 +113,18 @@
                   $noResult = false;
                   $id = $row['comment_id'];
                   $content = $row['comment_content'];
-                  $comment_time = $row['comment_time'];     
+                  $comment_time = $row['comment_time'];
+                  $thread_user_id = $row['comment_by'];
+                  $sql2 = "SELECT user_email FROM `users` where sno='$thread_user_id'";
+                  $result2 = mysqli_query($conn, $sql2); 
+                  $row2 = mysqli_fetch_assoc($result2);     
       
       echo '  <div class="d-flex my-3">
             <div class="flex-shrink-0">
               <img src="img/default_user.png" width="34px" alt="...">
             </div>
             <div class="flex-grow-1 ms-3"> 
-               <p class="fw-bold my-0">Anonymous User at '. $comment_time .'</p>
+               <p class="fw-bold my-0"> ' . $row2['user_email'] . ' at '. $comment_time .'</p>
                 '. $content .'
               </div>
           </div>';
@@ -117,9 +134,9 @@
           if($noResult){
             echo ' <div class="p-5 mb-4 border" style="background-color:#e9ecef;>
                 <div class="container">
-                  <p class="display-5">No Threads Found</p>
+                  <p class="display-5">No Comments Found</p>
                   <p class="lead">
-                    No Threads Found. Be the first person to ask a question. 
+                    Be the first person to comment.
                   </p>
                 </div>
               </div> ';
