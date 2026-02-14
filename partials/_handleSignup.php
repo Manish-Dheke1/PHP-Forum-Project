@@ -10,7 +10,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $existSql = "SELECT * FROM `users` WHERE user_email = '$user_email'";
     $result = mysqli_query($conn, $existSql);
     $numRows = mysqli_num_rows($result);
-
     if($numRows > 0){
         $showError = "Email already exists";
     } 

@@ -13,11 +13,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(password_verify($pass, $row['user_pass'])){
                 session_start();
                 $_SESSION['loggedin'] = true;
+                $_SESSION['sno'] = $row['sno'];
                 $_SESSION['useremail'] = $email;
                 echo "logged in " . $email;
             }
-             header("Location: /forum/index.php");
-    }      
+            header("Location: /forum/index.php");
+    }   
+    header("Location: /forum/index.php");   
 }
 
 ?>

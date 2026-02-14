@@ -6,11 +6,18 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+      #ques{
+        min-height: 633px;
+      }
+    </style>
+    
     <title>Welcome to iDiscuss - Coding Forums</title>
   </head>
   <body>
-    <?php include 'partials/_header.php'; ?>
     <?php include 'partials/_dbconnect.php'; ?>
+    <?php include 'partials/_header.php'; ?>
+    
 
     <!-- Slider starts here -->
     <div id="carouselExample" class="carousel slide">
@@ -41,7 +48,7 @@
     </div>
 
       <!-- Category container starts here  -->
-      <div class="container my-3">
+      <div class="container my-3" id="ques">
          <h2 class="text-center my-3">iDiscuss - Browse Categories</h2>
          <div class="row">
            <!-- Fetch all categories -->

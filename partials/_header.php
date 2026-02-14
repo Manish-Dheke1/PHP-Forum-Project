@@ -18,14 +18,15 @@ echo '  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     </li>
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories
+                       Top Categories
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                    <div class="dropdown-menu">';
+                    $sql = "SELECT category_name, category_id FROM `categories` LIMIT 3";
+                    $result = mysqli_query($conn, $sql);
+                    while($row = mysqli_fetch_assoc($result)){    
+                       echo ' <a class="dropdown-item" href="threadlist.php?catid=' . $row['category_id'] . '">' . $row['category_name'] . '</a>';
+                    }
+                    echo '</div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
@@ -37,20 +38,20 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/> 
         <button class="btn btn-success me-3" type="submit">Search</button> 
         <span class="text-white ms-2 text-nowrap me-2">Welcome '. $_SESSION['useremail'] .'</span> 
-        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Logout</button>
+        <a href="partials/_logout.php" class="btn btn-outline-success">Logout</a>
     </form>';
     
 
 }               
 else{
-    echo '<form class="d-flex" role="search">
+    echo '<form class="d-flex align-items-center" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                     <button class="btn btn-success" type="submit">Search</button>
-                     Welcome Manish
+                    
                 </form>
                 <div class="mx-2"> 
-                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</button>
+                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</button>
                 </div>';
 }
                

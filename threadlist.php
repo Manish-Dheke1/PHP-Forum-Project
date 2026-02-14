@@ -15,9 +15,9 @@
     <title>Welcome to iDiscuss - Coding Forums</title>
   </head>
   <body class="d-flex flex-column min-vh-100">
-    <?php include 'partials/_header.php'; ?>
     <?php include 'partials/_dbconnect.php'; ?>
-
+    <?php include 'partials/_header.php'; ?>
+    
 
     <?php
     $id =  $_GET['catid'];
